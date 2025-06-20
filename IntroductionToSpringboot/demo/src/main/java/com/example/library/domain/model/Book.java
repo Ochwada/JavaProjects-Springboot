@@ -1,10 +1,11 @@
-package com.example.demo.model;
+package com.example.library.domain.model;
 
 // In SpringBoot:
 // -jakarta.validation.* : This is a package from Oracle
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 /**
  * *******************************************************
@@ -12,12 +13,22 @@ import jakarta.validation.constraints.Size;
  * File: Book.java
  * Author: Ochwada
  * Date: Friday, 20.Jun.2025, 11:14 AM
- * Description: Core domain entity representing a book
+ * Description: Represents a Book entity with basic properties such as ID, title, author, and publication year
  * - Model Class - POJO
  * Objective:
  * *******************************************************
  */
 
+
+/**
+ * {@code @Data} is a Lombok annotation that automatically generates:
+ * - Getters and setters for all fields
+ * - {@code toString()}, {@code equals()}, and {@code hashCode()} methods
+ * - A required {@code constructor}
+ * <p>
+ * This helps reduce boilerplate code in Java classes.
+ */
+@Data
 
 public class Book {
     private Long id;
