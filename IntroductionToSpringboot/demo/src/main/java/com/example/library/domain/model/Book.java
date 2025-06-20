@@ -43,7 +43,6 @@ public class Book {
     /**
      * The unique identifier for the entity.
      */
-
     private Long id;
 
     /**
