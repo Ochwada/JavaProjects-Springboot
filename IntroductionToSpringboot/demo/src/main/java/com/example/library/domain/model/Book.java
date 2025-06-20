@@ -5,7 +5,9 @@ package com.example.library.domain.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * *******************************************************
@@ -14,7 +16,8 @@ import lombok.Data;
  * Author: Ochwada
  * Date: Friday, 20.Jun.2025, 11:14 AM
  * Description: Represents a Book entity with basic properties such as ID, title, author, and publication year
- * - Model Class - POJO
+ * - Book entity : Reflects to a table
+ * - Core Domain Layer -> Most inner logic
  * Objective:
  * *******************************************************
  */
@@ -24,13 +27,23 @@ import lombok.Data;
  * {@code @Data} is a Lombok annotation that automatically generates:
  * - Getters and setters for all fields
  * - {@code toString()}, {@code equals()}, and {@code hashCode()} methods
- * - A required {@code constructor}
+ * - Required constructor based on final fields
  * <p>
- * This helps reduce boilerplate code in Java classes.
+ * {@code @NoArgsConstructor} generates a no-argument constructor.
+ * {@code @AllArgsConstructor} generates a constructor with parameters for all fields.
+ *
+ * Together, these annotations simplify the class by reducing boilerplate code and enabling
+ * database persistence using Spring Data JPA.
  */
 @Data
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book {
+
+    /**
+     * The unique identifier for the entity.
+     */
+
     private Long id;
 
     /**
