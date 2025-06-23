@@ -1,4 +1,4 @@
-package com.example.library.infrastructure.Mapper;
+package com.example.library.infrastructure.mapper;
 
 
 import com.example.library.domain.model.Book;
