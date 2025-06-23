@@ -4,10 +4,12 @@ package com.example.taskmanager.service;
 import com.example.taskmanager.domain.Task;
 import com.example.taskmanager.domain.TaskRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * *******************************************************
@@ -37,14 +39,16 @@ public class TaskService {
      * @return the updated Task object if found; null otherwise
      */
     public Task markTaskAsComplete(Long id) {
+
         Task task = taskRepo.findById(id);
+
         if (task != null) {
             task.setCompleted(true);
+            //result  = task;
             return taskRepo.save(task);
         }
 
-        System.out.println("Task not found");
-        return null;
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task with ID " + id + " not found");
     }
 
     /**
@@ -65,6 +69,7 @@ public class TaskService {
      * @return a list of all Task objects
      */
     public List<Task> allTasks() {
+
         return taskRepo.findAll();
     }
 }

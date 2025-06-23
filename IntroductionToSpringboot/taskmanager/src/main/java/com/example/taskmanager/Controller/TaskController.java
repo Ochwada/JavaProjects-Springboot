@@ -6,12 +6,12 @@ import com.example.taskmanager.data.TaskData;
 import com.example.taskmanager.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+//import java.util.logging.Logger;
+
 
 /**
  * *******************************************************
@@ -24,10 +24,13 @@ import java.util.List;
  * *******************************************************
  */
 
-@Controller
+//@Controller
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
+
 
     /**
      * Retrieves a list of all tasks.
@@ -46,7 +49,7 @@ public class TaskController {
      * @param dto the task data containing the description
      * @return the newly created {@link Task}
      */
-    @PostMapping
+    @PostMapping("/createTasks")
     public  Task addTask(@RequestBody TaskData dto){
         return taskService.createTask(dto.getDescription());
     }
@@ -58,8 +61,8 @@ public class TaskController {
      * @param id the ID of the task to mark as complete
      * @return the updated {@link Task} object
      */
-    @PostMapping
-    public Task markAsDone(@PathVariable Long id){
+    @PostMapping("/{id}/done")
+    public Task markTaskAsComplete(@PathVariable Long id){
         return  taskService.markTaskAsComplete(id);
     }
 
