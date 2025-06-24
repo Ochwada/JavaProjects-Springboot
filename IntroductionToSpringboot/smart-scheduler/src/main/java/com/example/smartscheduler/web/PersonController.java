@@ -58,7 +58,7 @@ public class PersonController {
      * @RequestBody is a Spring annotation that tells the framework to:
      * - Convert the HTTP request body into a Java object
      */
-    @PostMapping
+    @PostMapping("/create")
     public Person createPerson(@RequestBody Person person) {
         return repository.save(person);
     }
