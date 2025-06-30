@@ -20,11 +20,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
-    /**
-     * Retrieves all employees from the database using a native SQL query.
-     *
-     * @return a list of all Employee entities
-     */
-
 
 }
