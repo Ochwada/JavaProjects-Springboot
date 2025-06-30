@@ -107,10 +107,31 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
         return nativeQuery.getResultList();
     }
 
+    /**
+     * Binds positional parameters to the given JPA {@link Query} using 1-based indexing.
+     * <p>
+     * This method safely iterates through the provided {@code params} array and assigns
+     * each value to its corresponding placeholder in the SQL query (e.g., {@code ?1}, {@code ?2}, etc.).
+     * </p>
+     *
+     * <p>Example usage with a query like:</p>
+     * <pre>
+     * "SELECT * FROM employees WHERE salary > ?1 AND department = ?2"
+     * </pre>
+     * and:
+     * <pre>
+     * setParameters(query, 50000, "Engineering");
+     * </pre>
+     * will bind {@code 50000} to {@code ?1} and {@code "Engineering"} to {@code ?2}.
+     *
+     * @param nativeQuery the JPA {@link Query} object to bind parameters to
+     * @param params      the parameter values to bind, in order
+     */
     private void setParameters(Query nativeQuery, Object... params) {
         if (params != null) {
             for (int i = 0; i < params.length; i++) {
-                nativeQuery.setParameter(i + 1, params[i + 1]);
+                //nativeQuery.setParameter(i + 1, params[i + 1]);
+                nativeQuery.setParameter(i + 1, params[i]); //  1-based query param index
             }
         }
     }
