@@ -1,23 +1,23 @@
-package com.example.companyhr.companyhr.model;
+package com.example.companyhr.model;
 
 
 import jakarta.persistence.*;
 
 /**
  * *******************************************************
- * Package: com.example.companyhr.companyhr.model
+ * Package: com.example.companyhr.model
  * File: Employee.java
  * Author: Ochwada
  * Date: Monday, 30.Jun.2025, 9:58 AM
  * Description: Represents an Employee Entity in a company's HR system.
- *  * The Employee entity represents a record in the employee table.
- *  * It contains basic attributes such as name, department, and salary.
+ * * The Employee entity represents a record in the employee table.
+ * * It contains basic attributes such as name, department, and salary.
  * Objective:
  * *******************************************************
  */
 
 @Entity
-@Table(name =  "Employees")
+@Table(name = "Employees")
 public class Employee {
 
     /**

@@ -1,4 +1,4 @@
-package com.example.companyhr.companyhr;
+package com.example.companyhr;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * *******************************************************
- * Package: com.example.companyhr.companyhr
+ * Package: com.example.companyhr
  * File: CompanyHrApplication.java
  * Author: Ochwada
  * Date: Monday, 30.Jun.2025, 9:52 AM

@@ -1,9 +1,9 @@
-package com.example.companyhr.companyhr.web;
+package com.example.companyhr.web;
 
 
 /**
  * *******************************************************
- * Package: com.example.companyhr.companyhr.web
+ * Package: com.example.companyhr.web
  * File: EmployeeController.java
  * Author: Ochwada
  * Date: Monday, 30.Jun.2025, 9:59 AM
