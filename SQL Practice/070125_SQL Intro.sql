@@ -59,11 +59,11 @@ WHERE brand NOT IN ('Volvo', 'Mercedes', 'Ford');
 SELECT * FROM cars
 WHERE model LIKE 'M%';
 
-
 #Select all customers where the customer_name field contains at least one 'a' character.
 SELECT * 
 FROM customers 
-WHERE customer_name LIKE '%a%'; # WHERE LOWER(customer_name) LIKE '%a%'
+WHERE customer_name LIKE '%a%';
+# WHERE LOWER(customer_name) LIKE '%a%'
 
 # Return values with no duplicates
 SELECT DISTINCT country FROM customers;
@@ -73,14 +73,12 @@ SELECT *
 FROM your_table_name 
 ORDER BY year DESC;
 
-
 #the OFFSET keyword is used together with LIMIT to skip a specific number of rows before starting to return the result set.
 SELECT * 
 FROM table_name
 ORDER BY column_name
 LIMIT number_of_rows
 OFFSET number_of_rows_to_skip;
-
 
 #SQL statements returns all customers from London?
 SELECT * FROM customers 
@@ -90,9 +88,9 @@ WHERE city LIKE 'L_nd__';
 SELECT product_name || unit AS product
 FROM products;
 
+#Join two tables orders and customers, using the customer_id field in both tables as the relationship between the two tables.
 
- #Join two tables orders and customers, using the customer_id field in both tables as the relationship between the two tables.
-
-SELECT * FROM orders
-LEFT JOIN customers
-ON orders.customer_id = customers.id;
+SELECT *  
+FROM orders  
+JOIN customers  
+ON orders.customer_id = customers.customer_id;
