@@ -75,6 +75,12 @@ INSERT INTO employees (name, department_id, job_title, hire_date, salary) VALUES
 -- View employees
 SELECT * FROM employees;
 
+-- TO TEST RANK()
+INSERT INTO employees (name, department_id, job_title, hire_date, salary) VALUES
+('Steve Ochwada', 2, 'Backend Developer', '2020-05-15', 88000.00),
+('Ashely Ochwada', 2, 'Backend Developer', '2020-05-15', 75000.00),
+('Linda Ochwada', 2, 'Backend Developer', '2020-05-15', 75000.00);
+
 -- ===========================================
 -- Salaries Table
 -- ===========================================
@@ -116,11 +122,17 @@ INSERT INTO salaries (employee_id, amount, effective_date) VALUES
   (28, 66000.00, '2020-02-03'),
   (29, 79000.00, '2023-05-21'),
   (30, 75000.00, '2019-08-18'),
-  (1, 60000.00, '2022-01-15'); -- now added for Alice Johnson if ID = 1 is reused
+  (1, 60000.00, '2022-01-15'); 
+  
+  -- now added for Alice Johnson if ID = 1 is reused
 
 -- View salaries
 SELECT * FROM salaries;
-
+-- TO TEST RANK()
+INSERT INTO salaries (employee_id, amount, effective_date) VALUES
+(33, 88000.00, '2020-05-15'),
+(32, 75000.00, '2020-05-15'),
+(31, 75000.00, '2020-05-15');
 -- ===========================================
 -- Indexes for Performance
 -- ===========================================
@@ -366,3 +378,67 @@ WHERE s.amount = (
   WHERE e2.department_id = e.department_id
 )
 ORDER BY d.name;
+
+
+-- ===========================================
+-- 26. Show each employee with their rank in their department by salary. Tips: Use RANK() OVER (PARTITION BY ...).
+-- ======================================
+SELECT 
+  e.id,
+  e.name,
+  s.amount AS salary,
+  d.name AS department_name,
+  RANK() OVER ( -- handles ties (two people with the same salary get the same rank, then it skips to the next).
+      PARTITION BY d.id  -- starts a new ranking per department.
+      ORDER BY s.amount DESC -- higher salaries get lower (better) ranks (1 = highest).
+  ) AS salary_rank
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id 
+ORDER BY d.name, salary_rank;
+
+
+-- ===========================================
+-- 27. Assign dense rank of salary within each department. Tips: Use DENSE_RANK().
+-- ======================================
+SELECT 
+  e.id,
+  e.name,
+  s.amount AS salary,
+  d.name AS department_name,
+  DENSE_RANK() OVER ( PARTITION BY d.id  ORDER BY s.amount DESC ) AS salary_rank
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id 
+ORDER BY d.name, salary_rank;
+
+
+-- ===========================================
+-- 28. Calculate the running total of salaries ordered by salary. Tips: Use SUM() OVER (ORDER BY salary).
+-- ======================================
+SELECT 
+  e.name,
+  s.amount AS salary,
+  -- calculates a running (cumulative) total of salaries from the lowest to highest.
+  SUM(s.amount) OVER (ORDER BY s.amount) AS running_total
+FROM Employees e
+JOIN salaries s ON s.employee_id = e.id
+ORDER BY s.amount;
+
+
+-- ===========================================
+-- 29. For each employee, show the average salary in their department. Tips: Use AVG() OVER (PARTITION BY ...).
+-- Calculates the average salary per department. This is done using a window function instead of GROUP BY. 
+------ So you get the average value repeated on each row, without collapsing rows like GROUP BY would.
+-- ======================================
+SELECT 
+  e.id,
+  e.name,
+  s.amount AS salary,
+  d.name AS department_name,
+AVG(s.amount) OVER ( PARTITION BY d.name) AS avg_salary
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id 
+ORDER BY d.name, avg_salary;
+
