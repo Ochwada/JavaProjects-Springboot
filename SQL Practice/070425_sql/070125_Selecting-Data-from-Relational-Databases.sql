@@ -483,11 +483,9 @@ ORDER BY d.name, salary_diff_to_dept_avg DESC;
 -- 32. Find the top 2 earners in each department. Tips: Use ROW_NUMBER() or RANK().
 -- ======================================
 
-
 -- ===========================================
 -- 33. Identify the department with the highest average salary. Tips: Use ORDER BY on AVG().
 -- ======================================
-
 
 -- ===========================================
 -- 34.  List employees who have the same salary as someone in a different department. Tips: Use self-join.
