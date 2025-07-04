@@ -477,3 +477,82 @@ FROM employees e
 JOIN salaries s ON s.employee_id = e.id
 JOIN departments d ON d.id = e.department_id
 ORDER BY d.name, salary_diff_to_dept_avg DESC;
+
+
+-- ===========================================
+-- 32. Find the top 2 earners in each department. Tips: Use ROW_NUMBER() or RANK().
+-- ======================================
+
+
+-- ===========================================
+-- 33. Identify the department with the highest average salary. Tips: Use ORDER BY on AVG().
+-- ======================================
+
+
+-- ===========================================
+-- 34.  List employees who have the same salary as someone in a different department. Tips: Use self-join.
+-- ===========================================
+
+-- ===========================================
+-- 35. List all employees with their department names using a JOIN. Tips: Use INNER JOIN.
+-- ===========================================
+
+-- ===========================================
+-- 36. Show all salary records with the corresponding employee names. Tips: Use JOIN.
+-- ===========================================
+
+-- ===========================================
+-- 37. Display each employee’s salary history. Tips: Use JOIN, order by date.
+-- ===========================================
+
+-- ===========================================
+-- 38. List all employees along with department name and their salary history. Tips: Multiple JOINs.
+-- ===========================================
+
+-- ===========================================
+-- 39. Check all indexes currently defined in the database. Tips: Use \di in psql or query pg_indexes.
+-- ===========================================
+
+-- ===========================================
+-- 40. Explain how a query plan uses the index on employees.salary. Tips: Use EXPLAIN ANALYZE.
+-- ===========================================
+
+-- ===========================================
+-- 41. Test the hash index on departments.name with an equality filter. Tips: Use WHERE name = '...'.
+-- ===========================================
+
+-- ======================================
+-- 42. Show employees whose salary is in the top 10% of all salaries. Tips: Use percentile or subquery with ORDER BY, LIMIT.
+-- ======================================
+
+-- ======================================
+-- 43. Find employees whose salary is below the department median salary. Tips: Use window functions or approximate median.
+-- ======================================
+
+-- ======================================
+-- 44. List departments with no employees. Tips: Use LEFT JOIN and WHERE ... IS NULL.
+-- ======================================
+
+-- ======================================
+-- 45.  Show employees who have had multiple salary records (simulate history changes). Tips: Use GROUP BY employee_id, HAVING COUNT() > 1.
+-- ======================================
+
+-- ===========================================
+-- 46.  Add a new department called 'Legal'. Tips: Use INSERT.
+-- ===========================================
+
+-- ===========================================
+-- 47. Update Bob’s salary to 80,000. Tips: Use UPDATE.
+-- ===========================================
+
+-- ===========================================
+-- 48. Delete an employee record by name. Tips: Use DELETE.
+-- ===========================================
+
+-- ===========================================
+-- 49.  Add an index on salaries.effective_date. Tips: Use CREATE INDEX.
+-- ===========================================
+
+-- ===========================================
+-- 50.  Drop the salaries table. Tips: Use DROP TABLE.
+-- ===========================================
