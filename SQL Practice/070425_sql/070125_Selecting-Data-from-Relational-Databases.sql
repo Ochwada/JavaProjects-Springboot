@@ -538,19 +538,32 @@ ORDER BY d.name, salary_diff_to_dept_avg DESC;
 -- ===========================================
 -- 46.  Add a new department called 'Legal'. Tips: Use INSERT.
 -- ===========================================
+INSERT INTO departments (name)
+VALUES('Legal');
 
 -- ===========================================
 -- 47. Update Bob’s salary to 80,000. Tips: Use UPDATE.
 -- ===========================================
+UPDATE Employees
+SET salary = 80000
+WHERE name = 'Bob Smith';
 
+UPDATE salaries
+SET salary = 80000
+WHERE employee_id = (
+  SELECT id FROM employeeS WHERE name = 'Bob Smith'
+);
 -- ===========================================
 -- 48. Delete an employee record by name. Tips: Use DELETE.
 -- ===========================================
-
+DELETE FROM employees WHERE name = 'Linda Ochwada';
 -- ===========================================
 -- 49.  Add an index on salaries.effective_date. Tips: Use CREATE INDEX.
 -- ===========================================
+-- B-Tree index on salary amount
+CREATE INDEX idx_salaries_effective_date ON salaries(effective_date);
 
 -- ===========================================
 -- 50.  Drop the salaries table. Tips: Use DROP TABLE.
 -- ===========================================
+DROP TABLE salaries CASCADE;
