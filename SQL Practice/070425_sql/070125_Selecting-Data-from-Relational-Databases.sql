@@ -261,3 +261,108 @@ JOIN Employees e ON d.id = e.department_id
 JOIN salaries s ON e.id = s.employee_id
 GROUP BY d.name
 ORDER BY d.name;
+
+-- ===========================================
+-- 19. List departments that have more than 2 employees. Tips: Use GROUP BY, HAVING COUNT().
+-- ======================================
+SELECT d.name, COUNT(e.id) as employees_count
+FROM employees e 
+JOIN departments d ON d.id = e.department_id
+GROUP BY d.name
+HAVING COUNT(e.id) > 2;
+
+-- ===========================================
+-- 20. Show departments with an average salary above 60,000. Tips: Use GROUP BY, HAVING AVG().
+-- ======================================
+SELECT d.name, ROUND(AVG(s.amount), 2) as avg_salary_abv_60000
+FROM employees e
+JOIN departments d ON e.department_id = d.id
+JOIN salaries s ON s.employee_id = e.id 
+GROUP BY d.name
+HAVING AVG(s.amount) > 60000;
+
+-- ===========================================
+-- 21. Find departments with a total salary cost greater than 150,000. Tips: Use GROUP BY, HAVING SUM().
+-- ======================================
+SELECT d.name, SUM(s.amount) AS total_salary_per_dep_abv_150000
+FROM departments d
+JOIN employees e ON d.id = e.department_id
+JOIN salaries s ON s.employee_id = e.id
+GROUP BY d.name
+HAVING SUM(s.amount) > 150000;
+
+-- ===========================================
+-- 22. Find employees earning above the overall average salary. Tips: Use subquery in WHERE.
+-- ======================================
+SELECT 
+    e.id,
+    e.name, 
+    s.amount AS salary, 
+    s.amount - 
+      (
+        SELECT ROUND(AVG(amount)) FROM salaries
+      )  AS amount_above_avg
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+WHERE  s.amount > (
+  SELECT AVG(amount) FROM salaries
+)
+ORDER BY s.amount;
+
+-- ===========================================
+-- 23. List employees earning above their department’s average salary. Tips: Use correlated subquery.
+-- ======================================
+SELECT 
+  e.id,
+  e.name,
+  s.amount AS salary,
+  s.amount - 
+  (
+    SELECT ROUND(AVG(amount)) FROM salaries
+  ) AS  amount_above_avg
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id
+WHERE s.amount > (
+  SELECT AVG(amount) FROM salaries
+  GROUP BY d.name
+)
+ORDER BY s.amount;
+
+-- ===========================================
+-- 24. Find departments with at least one employee earning over 80,000. Tips: Use EXISTS or IN.
+-- ======================================
+SELECT 
+  d.name,
+  e.name,
+  s.amount,
+  s.amount - (
+    SELECT ROUND(AVG(amount)) FROM salaries
+  ) AS abv_80000_by
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id
+WHERE EXISTS (
+  SELECT 1
+  FROM Salaries s2 
+  WHERE s2.employee_id = e.id AND s2.amount > 80000
+)
+ORDER BY s.amount;
+
+-- ===========================================
+-- 25. Get the top earner in each department. Tips: Use subquery with MAX() or window functions.
+-- ======================================
+SELECT 
+  e.name AS name_of_highest_earner,
+  d.name AS department_name,
+  s.amount AS salary
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id
+WHERE s.amount = (
+  SELECT MAX(s2.amount)
+  FROM employees e2
+  JOIN salaries s2 ON s2.employee_id = e2.id
+  WHERE e2.department_id = e.department_id
+)
+ORDER BY d.name;
