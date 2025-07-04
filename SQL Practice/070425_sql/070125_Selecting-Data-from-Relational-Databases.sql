@@ -77,9 +77,9 @@ SELECT * FROM employees;
 
 -- TO TEST RANK()
 INSERT INTO employees (name, department_id, job_title, hire_date, salary) VALUES
-('Steve Ochwada', 2, 'Backend Developer', '2020-05-15', 88000.00),
+('Steve Ochwada', 2, 'Backend Developer', '2020-05-15', 75000.00),
 ('Ashely Ochwada', 2, 'Backend Developer', '2020-05-15', 75000.00),
-('Linda Ochwada', 2, 'Backend Developer', '2020-05-15', 75000.00);
+('Linda Ochwada', 2, 'Backend Developer', '2020-05-15', 88000.00);
 
 -- ===========================================
 -- Salaries Table
@@ -130,9 +130,11 @@ INSERT INTO salaries (employee_id, amount, effective_date) VALUES
 SELECT * FROM salaries;
 -- TO TEST RANK()
 INSERT INTO salaries (employee_id, amount, effective_date) VALUES
-(33, 88000.00, '2020-05-15'),
-(32, 75000.00, '2020-05-15'),
-(31, 75000.00, '2020-05-15');
+(31, 75000.00, '2020-05-15')
+(32, 75000.00, '2020-05-15')
+(33, 88000.00, '2020-05-15');
+
+
 -- ===========================================
 -- Indexes for Performance
 -- ===========================================
@@ -442,3 +444,36 @@ JOIN salaries s ON s.employee_id = e.id
 JOIN departments d ON d.id = e.department_id 
 ORDER BY d.name, avg_salary;
 
+-- ===========================================
+-- 30. List Engineering employees earning above the Engineering department average. Tips: Use subquery or window function.
+-- ======================================
+WITH engineering_salary AS (
+  SELECT 
+    e.name,
+    s.amount AS salary,
+    d.name AS department_name,
+    ROUND(AVG(s.amount) OVER (PARTITION BY d.name), 2) AS avg_dept_salary -- calculates the average salary per department.
+  FROM employees e
+  JOIN salaries s ON s.employee_id = e.id
+  JOIN departments d ON d.id = e.department_id 
+  WHERE d.name = 'Engineering' 
+)
+SELECT *
+FROM engineering_salary
+WHERE salary > avg_dept_salary;
+
+
+-- ===========================================
+-- 31. Show each employee with the difference between their salary and their department’s average. Tips: Use window function with AVG().
+-- ======================================
+SELECT 
+  e.id,
+  e.name,
+  s.amount AS salary,
+  d.name AS department_name,
+  ROUND(AVG(s.amount) OVER ( PARTITION BY d.name),2) AS avg_salary_per_dept,
+  (s.amount - ROUND(AVG(s.amount) OVER (PARTITION BY d.name), 2)) AS salary_diff_to_dept_avg
+FROM employees e
+JOIN salaries s ON s.employee_id = e.id
+JOIN departments d ON d.id = e.department_id
+ORDER BY d.name, salary_diff_to_dept_avg DESC;
