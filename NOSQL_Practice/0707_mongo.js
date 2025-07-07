@@ -77,17 +77,17 @@ db.products.insertMany([
 // --------------------------------------------------
 //  1. Find products with price less than 1000
 // --------------------------------------------------
-db.products.find({price : {$lt: 1000}})
+db.products.find({ price: { $lt: 1000 } })
 
 // --------------------------------------------------
 //  2. Find products with price between 100 and 1000 (inclusive)
 // --------------------------------------------------
-db.products.find({ price : {$gte: 100, $lte: 1000}})
+db.products.find({ price: { $gte: 100, $lte: 1000 } })
 
 // --------------------------------------------------
 //  3. Find products in either "Electronics" or "Kitchen" category
 // --------------------------------------------------
-db.products.find( { category: {$in: ["Electronics", "Kitchen"]}})
+db.products.find({ category: { $in: ["Electronics", "Kitchen"] } })
 
 /*
 // 4. Find customers who are either active OR younger than 30
@@ -144,11 +144,67 @@ db.customers.find({ addresses: { $exists: true, $ne: null } })
 // 6. Field does not exists
 // --------------------------------------------------
 db.customers.find(
- {
-   addresses: {$exists: false}
- }
+  {
+    addresses: { $exists: false }
+  }
 )
 
 // --------------------------------------------------
 // 7. Add Data to User collection (table in SQL)
 // --------------------------------------------------
+
+// users
+db.users.insertOne(
+  {
+    name: "Linda Doe",
+    email: "linda@gmx.de",
+    createdAt: ISODate(),
+    status: "Active"
+  }
+)
+
+// --------------------------------------------------
+// 8A. Find users where the "name" exactly matches "Linda Doe"
+// (case-sensitive exact match)
+// --------------------------------------------------
+
+db.users.find({
+  "name": "Linda Doe"
+})
+
+db.users.find({
+  name: "Linda Doe"
+})
+/*
+Expected result:
+{
+  _id: ObjectId('686ba1895752b1e44945d890'),
+  name: 'Linda Doe',
+  email: 'linda@gmx.de',
+  createdAt: ISODate("2025-07-07T10:29:29.045Z"),
+  status: 'Active'
+}
+*/
+
+// Optional: nicely print results if running in script
+// db.users.find({ name: "Linda Doe" }).forEach(printjson)
+
+
+// --------------------------------------------------
+// 8B. Case-Insensitive Match on Name
+// (matches "linda doe", "LINDA DOE", etc.)
+// --------------------------------------------------
+db.users.find({
+  name: { $regex: /^linda doe$/i }
+})
+
+
+// --------------------------------------------------
+// 8C. Find user by email
+// (precise, preferred method for unique user lookup)
+// --------------------------------------------------
+db.users.findOne(
+  {
+    email: "linda@gmx.de"
+  }
+)
